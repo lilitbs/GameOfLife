@@ -1,4 +1,4 @@
-function generator(matLen, gr, grEat, pr, monst, riv) {
+function generator(matLen, gr, grEat, pr, monst, riv, bet,end) {
     let matrix = [];
     for (let i = 0; i < matLen; i++) {
         matrix[i] = [];
@@ -41,18 +41,33 @@ function generator(matLen, gr, grEat, pr, monst, riv) {
             matrix[x][y] = 5;
         }
     }
+    for (let i = 0; i < bet; i++) {
+        let x = Math.floor(Math.random() * matLen);
+        let y = Math.floor(Math.random() * matLen);
+        if (matrix[x][y] == 0) {
+            matrix[x][y] = 6;
+        }
+    } for (let i = 0; i < end; i++) {
+        let x = Math.floor(Math.random() * matLen);
+        let y = Math.floor(Math.random() * matLen);
+        if (matrix[x][y] == 0) {
+            matrix[x][y] = 7;
+        }
+    }
     return matrix;
 }
 
 let side = 20;
 
-let matrix = generator(15, 40, 25, 10, 5, 5);
+let matrix = generator(15, 40, 25, 10, 5, 5, 5, 2);
 
 var grassArr = [];
 var grassEaterArr = []
 var grassPredatorArr = []
 var grassMonsterArr = []
 var grassRiverArr = []
+var grassBeautyArr = []
+var grassEndArr = []
 
 function setup() {
     frameRate(5);
@@ -68,12 +83,10 @@ function setup() {
             else if (matrix[y][x] == 2) {
                 let grEat = new GrassEater(x, y)
                 grassEaterArr.push(grEat)
-
             }
             else if (matrix[y][x] == 3) {
                 let grPredat = new GrassPredator(x, y)
                 grassPredatorArr.push(grPredat)
-
             }
             else if (matrix[y][x] == 4) {
                 let newMonster = new GrassMonster(x, y)
@@ -82,6 +95,14 @@ function setup() {
             else if (matrix[y][x] == 5) {
                 let newRiver = new GrassRiver(x, y)
                 grassRiverArr.push(newRiver)
+            }
+            else if (matrix[y][x] == 6) {
+                let newBeauty = new GrassBeauty(x, y)
+                grassBeautyArr.push(newBeauty)
+            }
+            else if (matrix[y][x] == 7) {
+                let newEnd = new GrassEnd(x, y)
+                grassEndArr.push(newEnd)
             }
         }
     }
@@ -116,6 +137,14 @@ function draw() {
                 fill("blue")
                 rect(x * side, y * side, side, side)
             }
+            else if (matrix[y][x] == 6) {
+                fill("violet")
+                rect(x * side, y * side, side, side)
+            }
+            else if (matrix[y][x] == 7) {
+                fill("aqua")
+                rect(x * side, y * side, side, side)
+            }
         }
     }
     for (var i in grassArr) {
@@ -135,6 +164,13 @@ function draw() {
     }
     for (var i in grassRiverArr) {
         grassRiverArr[i].eat();
+    }
+    for (var i in grassBeautyArr) {
+        grassBeautyArr[i].eat();
+    }
+    for (var i in grassEndArr) {
+        grassEndArr[i].mul();
+        grassEndArr[i].eat()
     }
 }
 

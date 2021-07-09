@@ -1,4 +1,4 @@
-class GrassMonster extends LivingCreature {
+class GrassEnd extends LivingCreature {
     constructor(x, y) {
         super(x, y)
         this.multiply = 0
@@ -22,7 +22,7 @@ class GrassMonster extends LivingCreature {
         this.getNewCoordinates()
         return super.chooseCell(character)
     }
-    
+
     mul() {
         this.multiply++;
         var emptyCells = this.chooseCell(0);
@@ -31,16 +31,17 @@ class GrassMonster extends LivingCreature {
         if (newCell && this.multiply >= 15) {
             var newX = newCell[0];
             var newY = newCell[1];
-            matrix[newY][newX] = 3;
+            matrix[newY][newX] = 7;
 
-            var newGrass = new GrassPredator(newX, newY);
-            grassPredatorArr.push(newGrass);
+            var newGrass = new GrassEnd(newX, newY);
+            grassEndArr.push(newGrass);
             this.multiply = 0;
         }
     }
+
     move() {
         this.energy--
-        var emptyCells = this.chooseCell(0)
+        var emptyCells = this.chooseCell(5)
         var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
 
         if (newCell && this.energy >= 0) {
@@ -51,15 +52,11 @@ class GrassMonster extends LivingCreature {
             this.x = newX
             this.y = newY
         }
-        else {
-            if (this.energy < 0) {
-                this.die()
-            }
-        }
+
     }
 
     eat() {
-        var emptyCells = this.chooseCell(3)
+        var emptyCells = this.chooseCell(5)
         var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
 
         if (newCell) {
@@ -71,9 +68,9 @@ class GrassMonster extends LivingCreature {
             matrix[this.y][this.x] = 0
             this.x = newX
             this.y = newY
-            for (var i in grassPredatorArr) {
-                if (newX == grassPredatorArr[i].x && newY == grassPredatorArr[i].y) {
-                    grassPredatorArr.splice(i, 1)
+            for (var i in grassRiverArr) {
+                if (newX == grassRiverArr[i].x && newY == grassRiverArr[i].y) {
+                    grassRiverArr.splice(i, 1)
                     break
                 }
             }
@@ -83,13 +80,4 @@ class GrassMonster extends LivingCreature {
         }
     }
 
-    die() {
-        matrix[this.y][this.x] = 0;
-        for (var i in grassMonsterArr) {
-            if (this.x == grassMonsterArr[i].x && this.y == grassMonsterArr[i].y) {
-                grassMonsterArr.splice(i, 1);
-                break;
-            }
-        }
-    }
 }
