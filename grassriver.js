@@ -47,13 +47,6 @@ module.exports = class GrassRiver extends LivingCreature {
         }
     }
 
-    // die() {
-    //     matrix[this.y][this.x] = 0;
-    //     for (var i in grassRiverArr) {
-    //         if (this.x == grassRiverArr[i].x && this.y == grassRiverArr[i].y) {
-    //             grassRiverArr.splice(i, 1);
-    //             break;
-    //         }
-    //     }
-    // }
 }
+
+

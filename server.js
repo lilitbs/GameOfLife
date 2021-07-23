@@ -1,5 +1,5 @@
 var express = require('express');
-var app= express();
+var app = express();
 var server = require('http').Server(app);
 var io = require("socket.io")(server);
 var fs = require("fs");
@@ -13,28 +13,28 @@ server.listen(7777);
 
 weather = "summer"
 
-setInterval(function(){
-    if (weather == "summer"){
+setInterval(function () {
+    if (weather == "summer") {
         weather = "autumn"
     }
-    else if (weather == "autumn"){
+    else if (weather == "autumn") {
         weather = "winter"
     }
-    else if (weather == "winter"){
+    else if (weather == "winter") {
         weather = "spring"
     }
-    else if (weather == "spring"){
+    else if (weather == "spring") {
         weather = "summer"
     }
-    io.sockets.emit('send weather',  weather)
+    io.sockets.emit('send weather', weather)
 }, 4000)
 
 matrix = [];
 
 io.sockets.emit('send matrix', matrix)
 
-function generator(matLen, gr, grEat, pr, monst, riv, bet,end) {
-    
+function generator(matLen, gr, grEat, pr, monst, riv, bet, end) {
+
     for (let i = 0; i < matLen; i++) {
         matrix[i] = [];
         for (let j = 0; j < matLen; j++) {
@@ -112,7 +112,7 @@ var GrassRiver = require("./grassriver.js")
 var GrassMonsterEater = require("./grassMonsterEater.js")
 var GrassEnd = require("./grassend.js")
 
-function createobject(matrix){
+function createobject(matrix) {
     for (var y = 0; y < matrix.length; ++y) {
         for (var x = 0; x < matrix[y].length; ++x) {
             if (matrix[y][x] == 1) {
@@ -148,7 +148,7 @@ function createobject(matrix){
     io.sockets.emit("send matrix", matrix)
 }
 
-function game(){
+function game() {
     for (var i in grassArr) {
         grassArr[i].mul();
     }
@@ -166,7 +166,6 @@ function game(){
     }
     for (var i in grassRiverArr) {
         grassRiverArr[i].eat();
-        // grassRiverArr[i].die();
     }
     for (var i in grassMonsterEaterArr) {
         grassMonsterEaterArr[i].eat();
@@ -181,25 +180,25 @@ function game(){
 var flag = true
 
 
-    io.on('connection', function (socket) {
-        if(flag){
+io.on('connection', function (socket) {
+    if (flag) {
         console.log(1111);
-        
+
         createobject(matrix)
         flag = false
     }
 
-    })
+    socket.on("add Grass", function addGrass() {
+        console.log("es avelacnum em gras");
 
- 
+    })
+})
 
 setInterval(game, 1000)
 
-
-
 var statistics = {};
 
-setInterval(function(){
+setInterval(function () {
     statistics.grass = grassArr.length;
     statistics.grassEater = grassEaterArr.length;
     statistics.GrassPredator = grassPredatorArr.length;
@@ -210,3 +209,4 @@ setInterval(function(){
 
     fs.writeFileSync("statistics.json", JSON.stringify(statistics))
 }, 1000)
+

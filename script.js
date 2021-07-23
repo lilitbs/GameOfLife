@@ -69,3 +69,9 @@ setInterval(
         socket.on('send matrix', nkarel)
     }, 1000
 )
+
+function addGrass() {
+    console.log("sockety anum a emit");
+    
+ socket.emit("add Grass")
+}
